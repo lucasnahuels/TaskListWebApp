@@ -6,14 +6,18 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.Linq;
+using TaskListWebApp.Server.Database.Interfaces;
+using TaskListWebApp.Server.Helpers;
 
 namespace TaskListWebApp.Server
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        private readonly ITaskRepository _taskRepository;
+        public Startup(IConfiguration configuration, ITaskRepository taskRepository)
         {
             Configuration = configuration;
+            this._taskRepository = taskRepository;
         }
 
         public IConfiguration Configuration { get; }
@@ -31,6 +35,7 @@ namespace TaskListWebApp.Server
             //});
             services.AddDatabaseContext(Configuration.GetConnectionString("Seed"));
             services.AddDomainServices();
+            SetDataToDatabase();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -53,8 +58,6 @@ namespace TaskListWebApp.Server
             app.UseStaticFiles();
 
             app.UseRouting();
-            
-            //app.UseConfiguration(new ConfigurationBuilder().AddJsonFile("appsettings.json", optional: false, reloadOnChange: true).AddCommandLine(args).Build())
 
             app.UseEndpoints(endpoints =>
             {
@@ -62,6 +65,23 @@ namespace TaskListWebApp.Server
                 endpoints.MapControllers();
                 endpoints.MapFallbackToFile("index.html");
             });
+        }
+
+        private void SetDataToDatabase()
+        {
+            //clean database
+            var oldDataList = _taskRepository.GetAll();
+            foreach (var item in oldDataList)
+            {
+                _taskRepository.Delete(item);
+            }
+            //fill database
+            var urlResponse = UrlHelper.CallUrl();
+            var taskListFromResponse = MapperHelper.MapResponseToTaskList(urlResponse);
+            foreach (var item in taskListFromResponse)
+            {
+                _taskRepository.Add(item);
+            }
         }
     }
 }

@@ -42,5 +42,9 @@ namespace TaskListWebApp.Server.Database
 
             return entity;
         }
+        public virtual void Delete(TEntity entity)
+        {
+            _dbContext.Set<TEntity>().Remove(entity);
+        }
     }
 }

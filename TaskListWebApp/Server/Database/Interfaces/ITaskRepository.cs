@@ -6,12 +6,13 @@ using TaskListWebApp.Shared.Models;
 
 namespace TaskListWebApp.Server.Database.Interfaces
 {
-    public interface ITaskRepository
+    public interface ITaskRepository : IRepository<TaskModel>
     {
         TaskModel GetById(int id);
         IEnumerable<TaskModel> GetAll();
         int Add(TaskModel taskModel);
 
         void Edit(TaskModel taskModel);
+        void Remove(TaskModel taskModel);
     }
 }

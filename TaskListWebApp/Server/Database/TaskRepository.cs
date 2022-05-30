@@ -18,6 +18,6 @@ namespace TaskListWebApp.Server.Database
         public int Add(TaskModel taskModel) => Create(taskModel).Id;
 
         public void Edit(TaskModel taskModel) => Update(taskModel);
-
+        public void Remove(TaskModel taskModel) => Delete(taskModel);
     }
 }

@@ -16,6 +16,8 @@ namespace TaskListWebApp.Server.Database.Interfaces
 
         TEntity Update(TEntity entity);
 
+        void Delete(TEntity entity);
+
     }
 
     public interface IRepository<TEntity, TContext> : IRepository<TEntity> where TEntity : class where TContext : DbContext
