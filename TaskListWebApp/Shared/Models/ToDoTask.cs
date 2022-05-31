@@ -1,10 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace TaskListWebApp.Shared.Models
+﻿namespace TaskListWebApp.Shared.Models
 {
-    public class TaskModel
+    public class ToDoTask
     {
-        [Key]
         public int Id { get; set; }
         public string Title { get; set; }
         public bool Done { get; set; }

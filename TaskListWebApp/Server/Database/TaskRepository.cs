@@ -7,17 +7,17 @@ using TaskListWebApp.Shared.Models;
 
 namespace TaskListWebApp.Server.Database
 {
-    public class TaskRepository: Repository<TaskModel, ApplicationDbContext>, ITaskRepository
+    public class TaskRepository: Repository<ToDoTask, ApplicationDbContext>, ITaskRepository
     {
         public TaskRepository(ApplicationDbContext dbContext, IUnitOfWork unitOfWork) : base(dbContext, unitOfWork)
         {
         }
 
-        public TaskModel GetById(int id) => Get<int>(id);
-        public IEnumerable<TaskModel> GetAll() => Query().ToList();
-        public int Add(TaskModel taskModel) => Create(taskModel).Id;
+        public ToDoTask GetById(int id) => Get<int>(id);
+        public IEnumerable<ToDoTask> GetAll() => Query().ToList();
+        public int Add(ToDoTask toDoTask) => Create(toDoTask).Id;
 
-        public void Edit(TaskModel taskModel) => Update(taskModel);
-        public void Remove(TaskModel taskModel) => Delete(taskModel);
+        public void Edit(ToDoTask toDoTask) => Update(toDoTask);
+        public void Remove(ToDoTask toDoTask) => Delete(toDoTask);
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using TaskListWebApp.Server.Helpers;
 using TaskListWebApp.Shared.Models;
 
 namespace TaskListWebApp.Server.Database
@@ -10,7 +11,23 @@ namespace TaskListWebApp.Server.Database
         {
 
         }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<ToDoTask>()
+                .ToTable("Tasks");
 
-        public DbSet<TaskModel> Tasks { get; set; }
+            modelBuilder.Entity<ToDoTask>()
+                .Property(t => t.Id)
+                .UseIdentityColumn();
+            
+            modelBuilder.Entity<ToDoTask>()
+                .Property(t => t.Title)
+                .IsRequired(true);
+            
+            modelBuilder.Entity<ToDoTask>()
+                .Property(t => t.Done)
+                .HasDefaultValue(false);
+        }
+        public DbSet<ToDoTask> Tasks { get; set; }
     }
 }

@@ -1,18 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using TaskListWebApp.Shared.Models;
 
 namespace TaskListWebApp.Server.Database.Interfaces
 {
-    public interface ITaskRepository : IRepository<TaskModel>
+    public interface ITaskRepository : IRepository<ToDoTask>
     {
-        TaskModel GetById(int id);
-        IEnumerable<TaskModel> GetAll();
-        int Add(TaskModel taskModel);
+        ToDoTask GetById(int id);
+        IEnumerable<ToDoTask> GetAll();
+        int Add(ToDoTask toDoTask);
 
-        void Edit(TaskModel taskModel);
-        void Remove(TaskModel taskModel);
+        void Edit(ToDoTask toDoTask);
+        void Remove(ToDoTask toDoTask);
     }
 }

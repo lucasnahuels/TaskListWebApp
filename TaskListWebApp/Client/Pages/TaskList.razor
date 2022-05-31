@@ -15,10 +15,9 @@ else
     <div class="row">
     @foreach (var item in tasks)
     {
-        <div class="col-3" style="">
+        <div class="col-6 col-md-3" style="">
             <div class="card" style="">
-                <h5 class="card-title">Task #@count</h5>
-                @{count++;}
+                <h5 class="card-title">Task #@item.Id</h5>
                 <h5 class="card-title">@item.Title</h5>
                 <div class="card-body" style="">
                     <p class="card-text">
@@ -47,10 +46,13 @@ else
     </div>
 }
 
-
 @code {
-    TaskModel[] tasks { get; set; }
+    ToDoTask[] tasks { get; set; }
 
+    protected override void OnAfterRender(bool firstRender)
+    {
+        base.OnAfterRender(firstRender);
+    }
     protected override async Task OnInitializedAsync()
     {
         await LoadTasks();
@@ -58,6 +60,6 @@ else
 
     async Task LoadTasks()
     {
-        tasks = await client.GetFromJsonAsync<TaskModel[]>("task");
+        tasks = await client.GetFromJsonAsync<ToDoTask[]>("task");
     }
 }

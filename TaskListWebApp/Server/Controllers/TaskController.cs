@@ -17,7 +17,7 @@ namespace TaskListWebApp.Server.Controllers
         }
 
         [HttpGet]
-        public ActionResult<List<TaskModel>> Get()
+        public ActionResult<List<ToDoTask>> Get()
         {
             return _taskRepository.GetAll().ToList();
         }
