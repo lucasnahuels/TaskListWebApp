@@ -9,7 +9,7 @@ namespace TaskListWebApp.Server.Database
 {
     public class TaskRepository: Repository<ToDoTask, ApplicationDbContext>, ITaskRepository
     {
-        public TaskRepository(ApplicationDbContext dbContext, IUnitOfWork unitOfWork) : base(dbContext, unitOfWork)
+        public TaskRepository(ApplicationDbContext dbContext) : base(dbContext)
         {
         }
 

@@ -8,12 +8,12 @@ namespace TaskListWebApp.Server.Database
     public class Repository<TEntity, TContext> : IRepository<TEntity, TContext> where TEntity : class where TContext : DbContext
     {
         protected TContext _dbContext { get; private set; }
-
-        public Repository(TContext dbContext, IUnitOfWork unitOfWork)
+        public Repository(TContext dbContext)
         {
             _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
             _dbContext = dbContext;
         }
+
         public virtual IQueryable<TEntity> Query()
         {
             return _dbContext.Set<TEntity>();

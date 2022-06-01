@@ -10,7 +10,7 @@ namespace TaskListWebApp.Server
     {
         public static void Main(string[] args)
         {
-            CreateHostBuilder(args).Build().SeedDataAsync().Result.Run();
+            CreateHostBuilder(args).Build().SeedData().Run();
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>

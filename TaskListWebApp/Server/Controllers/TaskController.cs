@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using TaskListWebApp.Server.Database.Interfaces;
+using TaskListWebApp.Server.Services;
 using TaskListWebApp.Shared.Models;
 
 namespace TaskListWebApp.Server.Controllers
@@ -10,16 +11,22 @@ namespace TaskListWebApp.Server.Controllers
     [Route("[controller]")]
     public class TaskController : Controller
     {
-        private readonly ITaskRepository _taskRepository;
-        public TaskController(ITaskRepository taskRepository)
+        private readonly ITaskService _taskService;
+        public TaskController(ITaskService taskService)
         {
-            this._taskRepository = taskRepository;
+            _taskService = taskService;
         }
 
         [HttpGet]
         public ActionResult<List<ToDoTask>> Get()
         {
-            return _taskRepository.GetAll().ToList();
+            return _taskService.Get();
+        }
+
+        [HttpPut("change-status")]
+        public void ChangeStatus(ToDoTask toDoTask)
+        {
+            _taskService.ChangeStatus(toDoTask);
         }
     }
 }

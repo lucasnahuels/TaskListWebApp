@@ -1,0 +1,32 @@
+version: "3.9"
+services:
+    web:
+        image: lucasstirpe/tasklistwebapp.client
+        build: 
+            context: .
+            dockerfile: C:\Users\jstirpl\source\repos\TaskListWebApp\TaskListWebApp\Client\Dockerfile
+        ports:
+            - "63500:80"
+            - "63501:443"
+        environment:
+        - ASPNETCORE_ENVIRONMENT=Development
+        depends_on:
+            - db
+            - server
+    db:
+        image: "mcr.microsoft.com/mssql/server"
+        environment:
+            SA_PASSWORD: "Your_password123"
+            ACCEPT_EULA: "Y"
+    server:
+        image: lucasstirpe/tasklistwebapp.server
+        build:
+            context: .
+            dockerfile: C:\Users\jstirpl\source\repos\TaskListWebApp\TaskListWebApp\Server\Dockerfile
+        ports: 
+            - "65000:80"
+            - "65001:43"
+        environment:
+        - ASPNETCORE_ENVIRONMENT=Development
+        depends_on:
+            - db

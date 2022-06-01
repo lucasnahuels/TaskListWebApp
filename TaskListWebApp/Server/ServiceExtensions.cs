@@ -1,10 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System.Threading.Tasks;
 using TaskListWebApp.Server.Database;
 using TaskListWebApp.Server.Database.Interfaces;
 using TaskListWebApp.Server.Helpers;
+using TaskListWebApp.Server.Services;
 
 namespace TaskListWebApp.Server
 {
@@ -13,6 +13,7 @@ namespace TaskListWebApp.Server
         public static void AddDomainServices(this IServiceCollection services)
         {
             services.AddScoped<ITaskRepository, TaskRepository>();
+            services.AddScoped<ITaskService, TaskService>();
         }
 
         public static void AddDatabaseContext(this IServiceCollection services, string connectionString)
@@ -21,13 +22,16 @@ namespace TaskListWebApp.Server
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connectionString));
         }
 
-        public static async Task<IHost> SeedDataAsync(this IHost host)
+        public static  IHost SeedData(this IHost host)
         {
             using var scope = host.Services.CreateScope();
             using var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+
             context.Database.EnsureCreated();
             context.Database.Migrate();
-            var taskListFromResponse = await GetUrlHelper.GetResponseAsync();
+
+            var taskListFromResponse = GetUrlHelper.GetResponseAsync().Result;
+
             context.Tasks.AddRange(taskListFromResponse);
             context.SaveChanges();
 
