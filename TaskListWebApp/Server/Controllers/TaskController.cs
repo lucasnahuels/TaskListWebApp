@@ -28,5 +28,11 @@ namespace TaskListWebApp.Server.Controllers
         {
             _taskService.ChangeStatus(toDoTask);
         }
+
+        [HttpDelete("{id}")]
+        public void ChangeStatus(int id)
+        {
+            _taskService.Delete(id);
+        }
     }
 }

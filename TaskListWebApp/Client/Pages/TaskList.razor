@@ -31,6 +31,10 @@ else
                                         @onclick="(()  => ChangeStatus(item))">
                                     Needs work
                                 </button>
+                                <button type="button" class="btn btn-primary" style="display: block; margin: auto; margin-top: 1em"
+                                        @onclick="(()  => ShowDialog(item))">
+                                    Complete
+                                </button>
                             }
                             else
                             {
@@ -42,6 +46,10 @@ else
                                         @onclick="(()  => ChangeStatus(item))">
                                     Mark as done
                                 </button>
+                                <button type="button" class="btn btn-primary" style="display:block; margin:auto; margin-top: 1em"
+                                        @onclick="(()  => ShowDialog(item))">
+                                    Complete
+                                </button>
                             }
                         </p>
                     </div>
@@ -50,9 +58,14 @@ else
         }
     </div>
 }
+@if (showDialog)
+{
+    <ModalDialog Title=@_taskToDelete.Id.ToString() OnClose="@OnDeleteDialogClose"></ModalDialog>
+}
 
 @code {
     ToDoTask[] tasks { get; set; }
+    private ToDoTask _taskToDelete { get; set; }
     bool showDialog = false;
 
     protected override async Task OnInitializedAsync()
@@ -69,5 +82,24 @@ else
     {
         await Client.PutAsJsonAsync("task/change-status", toDoTask);
         tasks = await Client.GetFromJsonAsync<ToDoTask[]>("task");
+    }
+
+    void ShowDialog(ToDoTask toDoTask)
+    {
+        showDialog = true;
+        _taskToDelete = toDoTask;
+        StateHasChanged();
+    }
+
+    private async Task OnDeleteDialogClose(bool accepted)
+    {
+        if (accepted)
+        {
+            await Client.DeleteAsync($"task/{_taskToDelete.Id}");
+            await LoadTasks();
+            _taskToDelete = null;
+        }
+        showDialog = false;
+        StateHasChanged();
     }
 }

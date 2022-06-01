@@ -7,5 +7,6 @@ namespace TaskListWebApp.Server.Services
     {
         List<ToDoTask> Get();
         void ChangeStatus(ToDoTask toDoTask);
+        void Delete(int id);
     }
 }

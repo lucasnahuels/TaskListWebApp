@@ -26,5 +26,12 @@ namespace TaskListWebApp.Server.Services
             _taskRepository.Edit(toDoTask);
             _unitOfWork.Complete();
         }
+
+        public void Delete(int id)
+        {
+            var taskToDelete =_taskRepository.GetById(id);
+            _taskRepository.Remove(taskToDelete);
+            _unitOfWork.Complete();
+        }
     }
 }
