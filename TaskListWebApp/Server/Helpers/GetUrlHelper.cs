@@ -26,7 +26,7 @@ namespace TaskListWebApp.Server.Helpers
             }
         }
 
-        private static List<ToDoTask> MapResponseToTaskList(string urlText)
+        public static List<ToDoTask> MapResponseToTaskList(string urlText)
         {
             List<string> stringList = urlText.Trim(new Char[] { '[', '"', ']' }).Split('.').ToList();
             stringList.RemoveAt(stringList.Count - 1);
