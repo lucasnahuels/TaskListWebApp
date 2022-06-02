@@ -18,8 +18,11 @@ services:
         ports:
             - "1433:1433"
         environment:
-            SA_PASSWORD: "Your_password123"
+            SA_PASSWORD: "Lucas000__%"
             ACCEPT_EULA: "Y"
+        networks:
+            appnet:
+                ipv4_address: 172.24.2.1
     server:
         image: lucasstirpe/tasklistwebapp.server
         build:
@@ -32,3 +35,13 @@ services:
         - ASPNETCORE_ENVIRONMENT=Development
         depends_on:
             - db
+        networks:
+            appnet:
+                ipv4_address: 172.24.2.2
+networks:
+    appnet:
+        driver: bridge
+        ipam:
+            driver: default
+            config:
+                - subnet: "172.24.2.0/16"
